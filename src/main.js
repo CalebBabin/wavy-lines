@@ -1,7 +1,7 @@
 const config = {
 	lines: 28,
 	curves: 20, // setting this to a higher amount makes the lines more curvy, lower makes them straight
-	points: 500, // the resolution the lines are rendered at, if you want the resolution of the curves to be 1:1, then this will need to be set to a value higher than the horizontal resolution of your screen
+	points: 250, // the resolution the lines are rendered at, if you want the resolution of the curves to be 1:1, then this will need to be set to a value higher than the horizontal resolution of your screen
 	curve_height: 0.4, // how tall the curves will be in relation to the height of the screen, 0.5 would be 50% of the screen, 0.1 would be 10%, 1 would be 100%
 	curve_variance: 0.75, // how much the curve height will variate 
 	curve_variance_x: 0.07, // how much the curve width will variate
