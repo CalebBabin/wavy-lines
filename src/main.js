@@ -70,8 +70,8 @@ window.addEventListener("DOMContentLoaded", () => {
 		** it will also match high DPI screens that have to use "sub-pixels" for web browsers to make it so you can read stuff on your phone or ipad or whatever
 		**
 		*/
-		canvas.width = canvas.offsetWidth * Math.max(1, window.devicePixelRatio);
-		canvas.height = canvas.offsetHeight * Math.max(1, window.devicePixelRatio);
+		canvas.width = window.innerWidth * Math.max(1, window.devicePixelRatio);
+		canvas.height = window.innerHeight * Math.max(1, window.devicePixelRatio);
 	}
 	window.addEventListener('resize', resize);
 	resize();
