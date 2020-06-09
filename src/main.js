@@ -18,6 +18,8 @@ const config = {
 	timer_2: 6500, // controls how fast the variation of the up/down animation moves
 	timer_3: 7800, // controls how fast the left/right animation moves
 	timer_4: 8800, // controls how fast the line width animation moves
+
+	speed_scale: 1, // adjusts the overall speed of the animation
 }
 
 // The following code will allow us to use query variables to adjust our "config" object
@@ -37,6 +39,14 @@ for (const key in query_vars) {
 	}
 }
 
+for (const key in config) {
+	if (config.hasOwnProperty(key)) {
+		if (key.startsWith("timer_")){
+			config[key] /= config.speed_scale;
+		}
+	}
+}
+
 const curve = function (points, ctx, y_offset = 0, direction = 1) {
 	/*
 	**
@@ -46,11 +56,11 @@ const curve = function (points, ctx, y_offset = 0, direction = 1) {
 	*/
 	if (direction > 0) {
 		for (let index = 0; index < points.length; index++) {
-			ctx.lineTo(points[index].x, points[index].y + y_offset*points[index].y_offset_amount)
+			ctx.lineTo(points[index].x, points[index].y + y_offset * points[index].y_offset_amount)
 		}
 	} else {
-		for (let index = points.length-1; index >= 0; index--) {
-			ctx.lineTo(points[index].x, points[index].y + y_offset*points[index].y_offset_amount)
+		for (let index = points.length - 1; index >= 0; index--) {
+			ctx.lineTo(points[index].x, points[index].y + y_offset * points[index].y_offset_amount)
 		}
 	}
 };
@@ -83,15 +93,15 @@ window.addEventListener("DOMContentLoaded", () => {
 		** 
 		*/
 		const y_offset_1 = Math.sin(Date.now() / config.timer_1 + x_index * config.y_offset_1_scale) * (config.curve_height * canvas.height);
-		const y_variance_1 = (Math.sin(Date.now() / config.timer_2 + x_index / config.y_variance_1_scale)/2+0.5)*config.curve_variance;
+		const y_variance_1 = (Math.sin(Date.now() / config.timer_2 + x_index / config.y_variance_1_scale) / 2 + 0.5) * config.curve_variance;
 
-		const y = y_offset + y_offset_1*y_variance_1;
+		const y = y_offset + y_offset_1 * y_variance_1;
 
-		const x_offset_1 = Math.sin(Date.now() / config.timer_3 + ((x_index*0.25) + y*config.y_crossover_influence)) * (config.curve_variance_x * canvas.width);
+		const x_offset_1 = Math.sin(Date.now() / config.timer_3 + ((x_index * 0.25) + y * config.y_crossover_influence)) * (config.curve_variance_x * canvas.width);
 		return {
 			x: (canvas.width / config.curves) * x_index + x_offset_1,
 			y,
-			y_offset_amount: 1 + config.line_width_variance*(Math.sin(Date.now() / config.timer_4 + (x_index*0.25))/2 + 0.5),
+			y_offset_amount: 1 + config.line_width_variance * (Math.sin(Date.now() / config.timer_4 + (x_index * 0.25)) / 2 + 0.5),
 		}
 	}
 
@@ -126,8 +136,8 @@ window.addEventListener("DOMContentLoaded", () => {
 				const computed = compute_pos(i * (config.curves / config.points), y_offset);
 
 				// make sure that our lines overflow off the edges of the screen so we can't see where they start and end 
-				computed.x *= 1+config.curve_variance_x*4;
-				computed.x -= (config.curve_variance_x*2)*canvas.width;
+				computed.x *= 1 + config.curve_variance_x * 4;
+				computed.x -= (config.curve_variance_x * 2) * canvas.width;
 
 				history.push(computed);
 			}
