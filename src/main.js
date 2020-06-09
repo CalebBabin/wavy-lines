@@ -20,6 +20,23 @@ const config = {
 	timer_4: 8800, // controls how fast the line width animation moves
 }
 
+// The following code will allow us to use query variables to adjust our "config" object
+// for example, adding "?background=#00ff00&line_color=#0000ff" will make everything look like shit
+const query_vars = {};
+const query_parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+	query_vars[key] = value;
+});
+for (const key in query_vars) {
+	if (query_vars.hasOwnProperty(key) && config.hasOwnProperty(key)) {
+		switch (typeof config[key]) {
+			case "number":
+				config[key] = Number(query_vars[key]);
+			default:
+				config[key] = query_vars[key];
+		}
+	}
+}
+
 const curve = function (points, ctx, y_offset = 0, direction = 1) {
 	/*
 	**
@@ -45,9 +62,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
 	//Set the background color
 	canvas.style.background = config.background;
-
-	//Set the color for the lines
-	ctx.fillStyle = config.line_color;
 
 	const resize = () => {
 		/*
@@ -124,6 +138,10 @@ window.addEventListener("DOMContentLoaded", () => {
 			const width_offset = canvas.height * config.line_width;
 
 			curve(history, ctx, width_offset, -1);
+
+
+			//Set the color for the lines
+			ctx.fillStyle = config.line_color;
 
 			ctx.fill();
 			//ctx.stroke();
