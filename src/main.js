@@ -15,7 +15,7 @@ const config = {
 
 	// These "timer" variables dictate how fast the animation moves, setting a higher value will move the animation slower.
 	timer_1: 10000, // controls how fast the overall up/down animation moves
-	timer_2: 6500, // controls how fast the variation of the up/down animation moves
+	timer_2: -6500, // controls how fast the variation of the up/down animation moves
 	timer_3: 7800, // controls how fast the left/right animation moves
 	timer_4: 8800, // controls how fast the line width animation moves
 
