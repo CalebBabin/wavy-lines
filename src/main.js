@@ -47,6 +47,10 @@ for (const key in config) {
 	}
 }
 
+const get_timer = (timer) => {
+	return (Date.now() + timer*100)/ config['timer_'+timer]
+}
+
 const curve = function (points, ctx, y_offset = 0, direction = 1) {
 	/*
 	**
@@ -92,16 +96,16 @@ window.addEventListener("DOMContentLoaded", () => {
 		** This function takes in an x and y position, and will then use sine waves and shit to make it all curvy :)
 		** 
 		*/
-		const y_offset_1 = Math.sin(Date.now() / config.timer_1 + x_index * config.y_offset_1_scale) * (config.curve_height * canvas.height);
-		const y_variance_1 = (Math.sin(Date.now() / config.timer_2 + x_index / config.y_variance_1_scale) / 2 + 0.5) * config.curve_variance;
+		const y_offset_1 = Math.sin(get_timer(1) + x_index * config.y_offset_1_scale) * (config.curve_height * canvas.height);
+		const y_variance_1 = (Math.sin(get_timer(2) + x_index / config.y_variance_1_scale) / 2 + 0.5) * config.curve_variance;
 
 		const y = y_offset + y_offset_1 * y_variance_1;
 
-		const x_offset_1 = Math.sin(Date.now() / config.timer_3 + ((x_index * 0.25) + y * config.y_crossover_influence)) * (config.curve_variance_x * canvas.width);
+		const x_offset_1 = Math.sin(get_timer(3) + ((x_index * 0.25) + y * config.y_crossover_influence)) * (config.curve_variance_x * canvas.width);
 		return {
 			x: (canvas.width / config.curves) * x_index + x_offset_1,
 			y,
-			y_offset_amount: 1 + config.line_width_variance * (Math.sin(Date.now() / config.timer_4 + (x_index * 0.25)) / 2 + 0.5),
+			y_offset_amount: 1 + config.line_width_variance * (Math.sin(get_timer(4) + (x_index * 0.25)) / 2 + 0.5),
 		}
 	}
 
