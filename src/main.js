@@ -48,7 +48,8 @@ for (const key in config) {
 }
 
 const get_timer = (timer) => {
-	return (Date.now() + timer*100)/ config['timer_'+timer]
+	const t = config['timer_'+timer];
+	return (Date.now() + t*1.5) / t
 }
 
 const curve = function (points, ctx, y_offset = 0, direction = 1) {
